@@ -1,0 +1,17 @@
+# Data files
+*.csv
+MSA/
+PDB_RNA/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+Desktop.ini
