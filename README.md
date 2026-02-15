@@ -54,8 +54,3 @@ $$MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|$$
 ## 🔗 관련 링크
 - [Kaggle 경진대회 페이지: Stanford Ribonanza RNA Folding 2](https://www.kaggle.com/competitions/stanford-rna-3d-folding-2)
 - [주최 기관 (Stanford Das Lab): Das Lab Official Site](https://daslab.stanford.edu/)
-
-## ✍️ Author
-이름/닉네임 - [GitHub Profile](https://github.com/)
-
-Email: your-email@example.com
