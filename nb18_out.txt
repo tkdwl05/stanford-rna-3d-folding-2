@@ -1,0 +1,86 @@
+﻿
+--- Cell 1 ---
+train_seq: (5716, 8) val_seq: (28, 8)
+train_labels: (7794971, 8) val_labels: (9762, 126)
+  target_id                                           sequence
+0      4TNA  GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGG...
+1      6TNA  GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGG...
+2      1TRA  GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGG...
+3      1TN2  GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGG...
+4      1TN1  GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGG...
+train_coords: (5716, 3)
+val_coords  : (28, 3)
+train_coords NaN/Inf: 0
+val_coords   NaN/Inf: 0
+train_coords bad mask: 0
+val_coords   bad mask: 0
+train_coords max|coord| (valid only, sample<=500): 778.1259765625
+val_coords   max|coord| (valid only, sample<=500): 420.6499938964844
+
+
+--- Cell 9 ---
+Epoch 1/20 [train]:   0%|          | 0/646 [00:00<?, ?it/s, loss=19, rmsd=None, stage=MASKED_L1, tm=None]  
+
+--- Cell 9 ---
+Epoch 1/20 [train]: 100%|██████████| 646/646 [00:43<00:00, 14.70it/s, loss=15.7, rmsd=None, stage=MASKED_L1, tm=None]
+Epoch 1/20 [eval]:   0%|          | 0/72 [00:00<?, ?it/s, loss=16.1, rmsd=19.5, stage=MASKED_L1, tm=0.0268]
+
+--- Cell 9 ---
+Epoch 1/20 [eval]: 100%|██████████| 72/72 [00:03<00:00, 21.80it/s, loss=15.6, rmsd=19.3, stage=MASKED_L1, tm=0.0286]
+
+
+--- Cell 9 ---
+[Epoch 1] train_loss=15.6580  eval_loss=15.6112  eval_rmsd=19.250722726186115  eval_tm=0.028590394106383126  stage=MASKED_L1
+💾 stage1 best loss updated: 15.611208 -> checkpoints/best_stage1_v16.pt
+
+
+--- Cell 9 ---
+Epoch 2/20 [train]: 100%|██████████| 646/646 [00:43<00:00, 14.73it/s, loss=15.7, rmsd=None, stage=MASKED_L1, tm=None]
+Epoch 2/20 [eval]: 100%|██████████| 72/72 [00:03<00:00, 22.76it/s, loss=15.6, rmsd=19.2, stage=MASKED_L1, tm=0.0288]
+
+
+--- Cell 9 ---
+[Epoch 2] train_loss=15.6508  eval_loss=15.6064  eval_rmsd=19.206295198864407  eval_tm=0.028757148189470172  stage=MASKED_L1
+💾 stage1 best loss updated: 15.606438 -> checkpoints/best_stage1_v16.pt
+
+
+--- Cell 9 ---
+Epoch 3/20 [train]:   3%|▎         | 22/646 [00:02<01:10,  8.82it/s, loss=115, rmsd=None, stage=STRUCTURED(+CONF), tm=None]
+
+
+--- Cell 9 ---
+
+[NaN/Inf detected] epoch=2 step=22 train=True  stage=STRUCTURED(+CONF)  loss=157575.09375
+  preds(all): nonfinite=156/24576  max|.|=2.227e+01  dtype=torch.float32
+  preds(mask==1): nonfinite=156/11088  max|.|=2.227e+01  dtype=torch.float32
+  conf_logits(all): nonfinite=4/32  max|.|=2.186e-01  dtype=torch.float16
+  target(all): nonfinite=0/6144  max|.|=1.111e+02  dtype=torch.float32
+  target(mask==1): nonfinite=0/2772  max|.|=1.111e+02  dtype=torch.float32
+  mask(all): nonfinite=0/2048  max|.|=1.000e+00  dtype=torch.float32  mask_sum=924.0  valid_per_sample=[35,252]
+
+
+--- Cell 9 ---
+
+[TRACEBACK]
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+Cell In[10], line 194
+    191 last_path = os.path.join(cfg.ckpt_dir, "last_v16.pt")
+    193 for epoch in range(start_epoch, cfg.epochs):
+--> 194     tr_loss, _, _, _ = run_epoch(train_loader, epoch, train=True)
+    195     ev_loss, ev_rmsd, ev_tm, stage = run_epoch(hold_loader, epoch, train=False)
+    196     print(f"[Epoch {epoch+1}] train_loss={tr_loss:.4f}  eval_loss={ev_loss:.4f}  eval_rmsd={ev_rmsd}  eval_tm={ev_tm}  stage={stage}")
+
+Cell In[10], line 162, in run_epoch(loader, epoch, train)
+    159     t3 = time.time()
+    160     print(f"[profile] step0 to_gpu: {t1-t0:.3f}s  forward+loss: {t3-t2:.3f}s")
+--> 162 _fail_if_nonfinite(loss, preds, conf_logits, target, mask, where=f"epoch={epoch} step={step} train={train}", stage=stage_name)
+    164 if train:
+    165     scaler.scale(loss).backward()
+
+Cell In[10], line 116, in _fail_if_nonfinite(loss, preds, conf_logits, target, mask, where, stage)
+    114     print("  " + _finite_stats("target", target.detach()[m_bool], "mask==1"))
+    115 print("  " + _finite_stats("mask", mask, "all") + f"  mask_sum={msum:.1f}  valid_per_sample=[{minv:.0f},{maxv:.0f}]")
+--> 116 raise RuntimeError("Non-finite tensor encountered (loss/preds/conf/target/mask).")
+
+RuntimeError: Non-finite tensor encountered (loss/preds/conf/target/mask).

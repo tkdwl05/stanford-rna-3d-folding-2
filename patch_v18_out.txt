@@ -1,0 +1,8 @@
+﻿✅ FIX A: amp=False (AMP 비활성화)
+✅ FIX C: ConfidenceHead output nan_to_num + clamp
+✅ FIX D: EGNNv16 preds nan_to_num + clamp
+✅ FIX E: EGNNPairAwareLayer agg_dx clamp(-5,5)
+✅ FIX B: run_epoch preds/conf도 nonfinite skip
+
+Total patches: 5/5
+💾 Saved → improve_data_label_v19.ipynb

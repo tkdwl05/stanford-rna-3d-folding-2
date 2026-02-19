@@ -1,0 +1,14 @@
+﻿
+        H = torch.matmul(P_c.transpose(1, 2), Q_c).contiguous()  # (B,3,3)
+        # ✅ Tikhonov regularization: prevent degenerate H (all-zero or rank<3)
+        #    which causes NaN gradients through SVD.
+        H = H + eps * torch.eye(3, device=H.device, dtype=H.dtype).unsqueeze(0)
+
+---
+        # ✅ Tikhonov regularization: prevent degenerate H (all-zero or rank<3)
+        #    which causes NaN gradients through SVD.
+        H = H + eps * torch.eye(3, device=H.device, dtype=H.dtype).unsqueeze(0)
+
+        U, S, Vh = torch.linalg.svd(H, full_matrices=False)
+        V = Vh.transpose(1, 2)
+---

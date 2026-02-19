@@ -1,0 +1,8 @@
+﻿✅ Applied FIX 1: kabsch_align SVD regularization
+✅ Applied FIX 4: kabsch_rmsd_losses sqrt clamp_min
+✅ Applied FIX 2: total_bk clamped before softmin
+✅ Applied FIX 3: run_epoch skips non-finite loss steps
+
+Total patches applied: 4/4
+
+💾 Saved patched notebook → improve_data_label_v18.ipynb
